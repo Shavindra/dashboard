@@ -115,7 +115,7 @@ export default {
     <Card v-if="loaded" :show-highlight-border="false">
       <h4 slot="title" class="text-default-text" v-html="t('assignTo.title', {count: resourceCount}, true)" />
 
-      <div slot="body" class="pl-10 pr-10">
+      <div slot="body" class="mt-15 mb-10">
         <form>
           <LabeledSelect
             v-model="moveTo"
@@ -127,7 +127,7 @@ export default {
           <KeyValue
             key="labels"
             v-model="labels"
-            class="mt-20"
+            class="mt-15"
             :add-label="t('labels.addSetLabel')"
             :read-allowed="false"
           />
@@ -137,7 +137,7 @@ export default {
       </div>
 
       <div slot="actions">
-        <button class="btn role-secondary" @click="close">
+        <button class="btn role-secondary mr-10" @click="close">
           {{ t('generic.cancel') }}
         </button>
 
