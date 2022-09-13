@@ -43,7 +43,10 @@ export default {
         return {};
       }
     },
-
+    asyncDataLoading: {
+      default: false,
+      type:    Boolean
+    },
   },
 
   computed: {
@@ -154,6 +157,7 @@ export default {
             :mode="mode"
             :required="true"
             :label="t('workload.storage.subtypes.secret')"
+            :loading="asyncDataLoading"
           />
           <LabeledSelect
             v-else-if="type==='configMap'"
@@ -162,6 +166,7 @@ export default {
             :required="true"
             :mode="mode"
             :label="t('workload.storage.subtypes.configMap')"
+            :loading="asyncDataLoading"
           />
         </div>
         <div class="col span-6">

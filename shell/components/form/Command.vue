@@ -36,6 +36,10 @@ export default {
         return {};
       },
     },
+    asyncDataLoading: {
+      default: false,
+      type:    Boolean
+    },
   },
 
   data() {
@@ -200,6 +204,7 @@ export default {
       :config-maps="configMaps"
       :secrets="secrets"
       :value="value"
+      :async-data-loading="asyncDataLoading"
     />
   </div>
 </template>

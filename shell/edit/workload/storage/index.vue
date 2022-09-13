@@ -1,5 +1,4 @@
 <script>
-import { PVC } from '@shell/config/types';
 import { removeObjects, addObjects } from '@shell/utils/array';
 import ButtonDropdown from '@shell/components/ButtonDropdown';
 import Mount from '@shell/edit/workload/storage/Mount';
@@ -55,39 +54,30 @@ export default {
       type:    Array,
       default: () => [],
     },
+    namespacedPvcs: {
+      type:    Array,
+      default: () => [],
+    },
 
     registerBeforeHook: {
       type:    Function,
       default: null,
     },
-  },
-
-  async fetch() {
-    if ( this.$store.getters['cluster/schemaFor'](PVC) ) {
-      this.pvcs = await this.$store.dispatch('cluster/findAll', { type: PVC });
-    } else {
-      this.pvcs = [];
-    }
+    asyncDataLoading: {
+      default: false,
+      type:    Boolean
+    },
   },
 
   data() {
     this.initializeStorage();
 
-    return {
-      pvcs:           [],
-      storageVolumes: this.getStorageVolumes(),
-    };
+    return { storageVolumes: this.getStorageVolumes() };
   },
 
   computed: {
     isView() {
       return this.mode === _VIEW;
-    },
-
-    namespacedPVCs() {
-      const namespace = this.namespace || this.$store.getters['defaultNamespace'];
-
-      return this.pvcs.filter(pvc => pvc.metadata.namespace === namespace);
     },
 
     /**
@@ -121,7 +111,7 @@ export default {
     },
 
     pvcNames() {
-      return this.namespacedPVCs.map(pvc => pvc.metadata.name);
+      return this.namespacedPvcs.map(pvc => pvc.metadata.name);
     },
   },
 
@@ -296,6 +286,7 @@ export default {
             :pvcs="pvcNames"
             :register-before-hook="registerBeforeHook"
             :save-pvc-hook-name="savePvcHookName"
+            :async-data-loading="asyncDataLoading"
             @removePvcForm="removePvcForm"
           />
           <div v-else-if="isView">

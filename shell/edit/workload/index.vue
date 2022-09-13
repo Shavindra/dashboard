@@ -87,6 +87,8 @@ export default {
             :mode="mode"
             :label="t('workload.serviceName')"
             :options="headlessServices"
+            :loading="isLoadingSecondaryResources"
+
             required
           />
         </div>
@@ -155,6 +157,7 @@ export default {
                       option-label="metadata.name"
                       :reduce="service=>service.metadata.name"
                       :create-option="createOption"
+                      :loading="isLoadingSecondaryResources"
                     />
                   </div>
                 </div>
@@ -169,7 +172,13 @@ export default {
               <div class="spacer" />
               <div>
                 <h3>{{ t('workload.container.titles.command') }}</h3>
-                <Command v-model="allContainers[i]" :secrets="namespacedSecrets" :config-maps="namespacedConfigMaps" :mode="mode" />
+                <Command
+                  v-model="allContainers[i]"
+                  :secrets="namespacedSecrets"
+                  :config-maps="namespacedConfigMaps"
+                  :mode="mode"
+                  :async-data-loading="isLoadingSecondaryResources"
+                />
               </div>
               <ServiceNameSelect
                 :value="podTemplateSpec.serviceAccountName"
@@ -178,6 +187,7 @@ export default {
                 :select-placeholder="t('workload.serviceAccountName.label')"
                 :options="namespacedServiceNames"
                 option-label="metadata.name"
+                :async-data-loading="isLoadingSecondaryResources"
                 @input="updateServiceAccount"
               />
               <div class="spacer" />
@@ -222,6 +232,8 @@ export default {
                 :config-maps="namespacedConfigMaps"
                 :container="container"
                 :save-pvc-hook-name="savePvcHookName"
+                :async-data-loading="isLoadingSecondaryResources"
+                :namespaced-pvcs="pvcs"
                 @removePvcForm="clearPvcFormState"
               />
             </Tab>
@@ -253,10 +265,10 @@ export default {
               </template>
             </Tab>
             <Tab :label="t('workload.container.titles.podScheduling')" name="podScheduling" :weight="tabWeightMap['podScheduling']">
-              <PodAffinity :mode="mode" :value="podTemplateSpec" :nodes="allNodeObjects" />
+              <PodAffinity :mode="mode" :value="podTemplateSpec" :nodes="allNodeObjects" :async-data-loading="isLoadingSecondaryResources" />
             </Tab>
             <Tab :label="t('workload.container.titles.nodeScheduling')" name="nodeScheduling" :weight="tabWeightMap['nodeScheduling']">
-              <NodeScheduling :mode="mode" :value="podTemplateSpec" :nodes="allNodes" />
+              <NodeScheduling :mode="mode" :value="podTemplateSpec" :nodes="allNodes" :async-data-loading="isLoadingSecondaryResources" />
             </Tab>
             <Tab :label="t('workload.container.titles.upgrading')" name="upgrading" :weight="tabWeightMap['upgrading']">
               <Job v-if="isJob || isCronJob" v-model="spec" :mode="mode" :type="type" />
