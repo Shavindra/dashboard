@@ -22,6 +22,9 @@ describe('Fleet Clusters', () => {
     it('should only display action menu with allowed actions only', () => {
       const constActionMenu = fleetClusterListPage.rowActionMenuOpen('local');
 
+
+
+      
       const allowedActions: MenuActions[] = [
         MenuActions.Pause,
         MenuActions.ForceUpdate,

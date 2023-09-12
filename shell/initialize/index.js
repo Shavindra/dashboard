@@ -327,6 +327,9 @@ async function createApp(ssrContext, config = {}) {
     if (process.client) {
       const { route } = router.resolve(app.context.route.fullPath);
 
+
+
+      
       if (!route.matched.length) {
         return resolve();
       }
