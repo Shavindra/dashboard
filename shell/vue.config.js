@@ -295,14 +295,16 @@ module.exports = function(dir, _appConfig) {
     // Vue server
     devServer: {
       https: (devPorts ? {
-        key:  fs.readFileSync(path.resolve(__dirname, 'server/server.key')),
-        cert: fs.readFileSync(path.resolve(__dirname, 'server/server.crt'))
+        key:  fs.readFileSync(path.resolve(__dirname, 'server/key.pem')),
+        cert: fs.readFileSync(path.resolve(__dirname, 'server/cert.pem'))
       } : null),
       port:   (devPorts ? 8005 : 80),
       host:   '0.0.0.0',
       public: `https://0.0.0.0:${ devPorts ? 8005 : 80 }`,
       before(app, server) {
         const socketProxies = {};
+
+        // app.use('/workers', express.static(path.join(__dirname, 'public/workers')));
 
         // Close down quickly in response to CTRL + C
         process.once('SIGINT', () => {
@@ -408,6 +410,8 @@ module.exports = function(dir, _appConfig) {
         }),
 
       }));
+
+      console.log('STATIC_PATH', path.join(SHELL_ABS, 'static')); // eslint-disable-line no-console
 
       // The static assets need to be in the built assets directory in order to get served (primarily the favicon)
       config.plugins.push(new CopyWebpackPlugin([{ from: path.join(SHELL_ABS, 'static'), to: '.' }]));

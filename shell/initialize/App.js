@@ -9,6 +9,8 @@ import NuxtLoading from '../components/nav/GlobalLoading.vue';
 import '../assets/styles/app.scss';
 import { getLayouts } from './layouts';
 
+import '../pwa/pwa';
+
 const layouts = getLayouts();
 
 export default {

@@ -85,9 +85,6 @@ dist
 *.org
 *.tern-port
 
-# Service worker
-sw.*
-
 # Mac OSX
 .DS_Store
 
